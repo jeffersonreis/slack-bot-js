@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@slack/bolt": "^3.7.0"
+    "@slack/bolt": "^3.7.0",
+    "node-fetch": "^3.0.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
