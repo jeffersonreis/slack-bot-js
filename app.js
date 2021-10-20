@@ -1,11 +1,14 @@
 const { App } = require("@slack/bolt");
 // const fetch = require("node-fetch");
 
-require("dotenv").config();
+const SLACK_BOT_TOKEN = "xoxb-2854134760-2617929986694-Y2nPJGutgrDiUqfDkHkyqGNU";
+const SLACK_SIGNING_SECRET = "1dbcdbaabd198e33d15f4651169cfee7";
+const APP_TOKEN="xapp-1-A02J5RDFXEJ-2626922105220-1c5d9be6d37542270d42b9adf82c1fff07cbca98c1da23c6520070c6f9cfe967";
+
 // Initializes your app with your bot token and signing secret
 const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  token: SLACK_BOT_TOKEN,
+  signingSecret: SLACK_SIGNING_SECRET,
   socketMode:true, // enable the following to use socket mode
   appToken: process.env.APP_TOKEN
 });
