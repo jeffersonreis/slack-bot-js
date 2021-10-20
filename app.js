@@ -10,7 +10,7 @@ const app = new App({
   token: SLACK_BOT_TOKEN,
   signingSecret: SLACK_SIGNING_SECRET,
   socketMode:true, // enable the following to use socket mode
-  appToken: process.env.APP_TOKEN
+  appToken: APP_TOKEN
 });
 
 app.command("/knowledge", async ({ command, ack, say }) => {
