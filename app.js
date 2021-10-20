@@ -1,5 +1,5 @@
 const { App } = require("@slack/bolt");
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 require("dotenv").config();
 // Initializes your app with your bot token and signing secret
@@ -31,29 +31,29 @@ const payload = {
   ],
 };
 
-async function lorem(){
-  fetch("https://slack.com/api/chat.postMessage", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "Content-Length": payload.length,
-      Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
-      Accept: "application/json",
-    },
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Server error ${res.status}`);
-      }
+// async function lorem(){
+//   fetch("https://slack.com/api/chat.postMessage", {
+//     method: "POST",
+//     body: JSON.stringify(payload),
+//     headers: {
+//       "Content-Type": "application/json; charset=utf-8",
+//       "Content-Length": payload.length,
+//       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
+//       Accept: "application/json",
+//     },
+//   })
+//     .then((res) => {
+//       if (!res.ok) {
+//         throw new Error(`Server error ${res.status}`);
+//       }
 
-      return res.json();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+//       return res.json();
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
 
-  }
+//   }
 
 app.message("hey bot", async ({ message, ack, say }) => {
   console.log("Oi?", )
@@ -67,8 +67,8 @@ app.message("hey bot", async ({ message, ack, say }) => {
 
 app.message("test", async ({ message, ack, say }) => {
   try {
-    lorem()
-    payload;
+    // lorem()
+    // payload;
   } catch (error) {
       console.log("err")
     console.error(error);
