@@ -19,13 +19,13 @@ const app = new App({
 
 async function sendAndDeleteMsg(say, msg){
   let mes = await say(msg);
-  await new Promise(r => setTimeout(r, 5000));
+  await new Promise(r => setTimeout(r, 30000));
   apagarMsg(mes);
 }
 
-async function sendMsg(msg){
+async function sendMsg(msg, channel){
   app.client.chat.postMessage({
-    channel: 'C02HZ95765T',
+    channel: channel,
     text: msg
   });
 }
@@ -47,12 +47,10 @@ async function verifyFile(files, say, user){
 
 async function apagarMsg(message){
   try {
-    console.log('tentando')
     await app.client.chat.delete({
-      channel: 'C02HZ95765T',
+      channel: message.channel,
       ts: message.ts
     });
-    console.log('apagarei')
   } catch (error) {
       console.log("err")
     console.error(error);
@@ -61,45 +59,28 @@ async function apagarMsg(message){
 
 
 app.message("hey bot", async ({ message, ack, say }) => {
-  console.log("Oi?", )
   try {
-    // let a = await say('@Jefferson Reis  Hey!');
-    // await new Promise(r => setTimeout(r, 20000));
-    // apagarMsg(message);
-    sendMsg("oi");
+    sendMsg("oi", message.channel);
   } catch (error) {
       console.log("err")
     console.error(error);
   }
 });
-
-app.message("test", async ({ message, say }) => {
-  try {
-    console.log("usuario", message.user)
-    let msg = await say(`Sua mensagem é muito grande, por favor, divida ela!`);
-    // await new Promise(r => setTimeout(r, 30000));
-    apagarMsg(msg);      
-  } catch (error) {
-      console.log("err")
-    console.error(error);
-  }
-});
-
-
-
 
 
 // analisa todas as mensagens
 app.message("", async ({ message, say }) => {
+
+  // se tiver um file, analisa...
   if(message.files != undefined){
     verifyFile(message.files, say, message.user)
   };
+
+  // verifica o tamanho da mensagem
   let size = message.text.length
   try {
     if(size > 1950){
-      let msg = await say(`<@${message.user}> Sua mensagem é muito grande, por favor, divida ela!`);
-      await new Promise(r => setTimeout(r, 30000));
-      apagarMsg(msg);      
+      sendAndDeleteMsg(say, `<@${message.user}> Sua mensagem é muito grande, por favor, divida ela!`);
     }
   } catch (error) {
       console.log("err")
