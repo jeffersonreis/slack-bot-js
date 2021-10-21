@@ -5,6 +5,7 @@ const SLACK_BOT_TOKEN = "xoxb-2854134760-2617929986694-Y2nPJGutgrDiUqfDkHkyqGNU"
 const SLACK_SIGNING_SECRET = "1dbcdbaabd198e33d15f4651169cfee7";
 const APP_TOKEN="xapp-1-A02J5RDFXEJ-2626922105220-1c5d9be6d37542270d42b9adf82c1fff07cbca98c1da23c6520070c6f9cfe967";
 
+
 // Initializes your app with your bot token and signing secret
 const app = new App({
   token: SLACK_BOT_TOKEN,
@@ -117,6 +118,4 @@ app.command("/caraoucoroa", async ({ command, ack, say }) => {
 (async () => {
   // Start your app
   await app.start();
-  console.log('Começamos')
-  // console.log(`⚡️ Slack Bolt app is running on port ${process.env.PORT}!`);
 })();
