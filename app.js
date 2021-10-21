@@ -1,6 +1,8 @@
-const { App } = require("@slack/bolt");
-// const fetch = require("node-fetch");
+import fetch from "node-fetch";
+import pkg from '@slack/bolt';
+const { App } = pkg;
 
+const SLACK_USER_TOKEN = "xoxp-2854134760-1861381846580-2621624978021-bb38b5c5ebb3569cd61c9d040d0b2fa8";
 const SLACK_BOT_TOKEN = "xoxb-2854134760-2617929986694-Y2nPJGutgrDiUqfDkHkyqGNU";
 const SLACK_SIGNING_SECRET = "1dbcdbaabd198e33d15f4651169cfee7";
 const APP_TOKEN="xapp-1-A02J5RDFXEJ-2626922105220-1c5d9be6d37542270d42b9adf82c1fff07cbca98c1da23c6520070c6f9cfe967";
@@ -14,77 +16,90 @@ const app = new App({
   appToken: APP_TOKEN
 });
 
-app.command("/knowledge", async ({ command, ack, say }) => {
+
+async function sendAndDeleteMsg(say, msg){
+  let mes = await say(msg);
+  await new Promise(r => setTimeout(r, 5000));
+  apagarMsg(mes);
+}
+
+async function sendMsg(msg){
+  app.client.chat.postMessage({
+    channel: 'C02HZ95765T',
+    text: msg
+  });
+}
+
+async function verifyFile(files, say, user){
+  files.map((file) => (
+    (file.size > 1000000)?
+    sendAndDeleteMsg(say, `<@${user}> Arquivo Grande! Tente enviar pelo drive ou outro lugar :)`)
+    : 
+    (file.filetype === "pdf" || file.filetype === "docx")?
+    sendAndDeleteMsg(say, `<@${user}> Aconselho enviar esse documento por um link do drive!`)
+
+    :
+    (file.filetype === "mp4" || file.filetype === "vlc" || file.filetype === "mkv"  || file.filetype === "avi")?
+    sendAndDeleteMsg(say, `<@${user}> Não mande vídeo por aqui! Upe no drive :)`)
+    : {}
+  ))
+}
+
+async function apagarMsg(message){
   try {
-    await ack();
-    say("HEIIII");
+    console.log('tentando')
+    await app.client.chat.delete({
+      channel: 'C02HZ95765T',
+      ts: message.ts
+    });
+    console.log('apagarei')
   } catch (error) {
       console.log("err")
     console.error(error);
   }
-});
-
-const payload = {
-  channel: "C02HZ95765T",
-  attachments: [
-    {
-      title: "Um titulo legal",
-      text: "Uma mensagem legal",
-      color: "#00FF00",
-    },
-  ],
 };
 
-// async function lorem(){
-//   fetch("https://slack.com/api/chat.postMessage", {
-//     method: "POST",
-//     body: JSON.stringify(payload),
-//     headers: {
-//       "Content-Type": "application/json; charset=utf-8",
-//       "Content-Length": payload.length,
-//       Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
-//       Accept: "application/json",
-//     },
-//   })
-//     .then((res) => {
-//       if (!res.ok) {
-//         throw new Error(`Server error ${res.status}`);
-//       }
-
-//       return res.json();
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-
-//   }
 
 app.message("hey bot", async ({ message, ack, say }) => {
   console.log("Oi?", )
   try {
-    say('Hey!');
+    // let a = await say('@Jefferson Reis  Hey!');
+    // await new Promise(r => setTimeout(r, 20000));
+    // apagarMsg(message);
+    sendMsg("oi");
   } catch (error) {
       console.log("err")
     console.error(error);
   }
 });
 
-app.message("test", async ({ message, ack, say }) => {
+app.message("test", async ({ message, say }) => {
   try {
-    // lorem()
-    // payload;
+    console.log("usuario", message.user)
+    let msg = await say(`Sua mensagem é muito grande, por favor, divida ela!`);
+    // await new Promise(r => setTimeout(r, 30000));
+    apagarMsg(msg);      
   } catch (error) {
       console.log("err")
     console.error(error);
   }
 });
+
+
+
+
 
 // analisa todas as mensagens
-app.message("", async ({ message, ack, say }) => {
+app.message("", async ({ message, say }) => {
+  if(message.files != undefined){
+    verifyFile(message.files, say, message.user)
+  };
   let size = message.text.length
   try {
     if(size > 1950){
-      say(`Sua mensagem é muito grande, por favor, divida ela!`);
+      let msg = await say(`<@${message.user}> Sua mensagem é muito grande, por favor, divida ela!`);
+      await new Promise(r => setTimeout(r, 30000));
+      apagarMsg(msg);      
     }
   } catch (error) {
       console.log("err")
@@ -92,6 +107,14 @@ app.message("", async ({ message, ack, say }) => {
   }
 });
 
+app.event('app_mention',async ({ event, say }) => {
+  try {
+    say(`Hey <@${event.user}>`);
+  } catch (error) {
+      console.log("err")
+    console.error(error);
+  }
+});
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -104,10 +127,26 @@ app.command("/caraoucoroa", async ({ command, ack, say }) => {
     await ack();
     let res = getRandomInt(0,2) // result is 0 or 1
     if (res === 0){
-      say('Coroa!')
+      say('Deu Coroa!')
     }
     else{
-      say('Cara!')
+      say('Deu Cara!')
+    }
+  } catch (error) {
+      console.log("err")
+    console.error(error);
+  }
+});
+
+app.command("/mktoucml", async ({ command, ack, say }) => {
+  try {
+    await ack();
+    let res = getRandomInt(0,2) // result is 0 or 1
+    if (res === 0){
+      say('Marketing é melhor!')
+    }
+    else{
+      say('Comercial é melhor!')
     }
   } catch (error) {
       console.log("err")
