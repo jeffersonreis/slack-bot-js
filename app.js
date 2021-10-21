@@ -116,6 +116,7 @@ app.command("/caraoucoroa", async ({ command, ack, say }) => {
 
 (async () => {
   // Start your app
-  await app.start(process.env.PORT);
-  console.log(`⚡️ Slack Bolt app is running on port ${process.env.PORT}!`);
+  await app.start();
+  console.log('Começamos')
+  // console.log(`⚡️ Slack Bolt app is running on port ${process.env.PORT}!`);
 })();
