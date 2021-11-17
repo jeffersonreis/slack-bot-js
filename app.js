@@ -1,11 +1,12 @@
-import fetch from "node-fetch";
-import pkg from '@slack/bolt';
-const { App } = pkg;
+// import fetch from "node-fetch";
+// import pkg from '@slack/bolt';
+const App = require("@slack/bolt").App
+let config = require("./config.json")
 
-const SLACK_USER_TOKEN = "xoxp-2854134760-1861381846580-2621624978021-bb38b5c5ebb3569cd61c9d040d0b2fa8";
-const SLACK_BOT_TOKEN = "xoxb-2854134760-2617929986694-Y2nPJGutgrDiUqfDkHkyqGNU";
-const SLACK_SIGNING_SECRET = "1dbcdbaabd198e33d15f4651169cfee7";
-const APP_TOKEN="xapp-1-A02J5RDFXEJ-2626922105220-1c5d9be6d37542270d42b9adf82c1fff07cbca98c1da23c6520070c6f9cfe967";
+const SLACK_USER_TOKEN = config.SLACK_USER_TOKEN;
+const SLACK_BOT_TOKEN = config.SLACK_BOT_TOKEN
+const SLACK_SIGNING_SECRET = config.SLACK_SIGNING_SECRET
+const APP_TOKEN= config.APP_TOKEN
 
 
 // Initializes your app with your bot token and signing secret

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
@@ -16,9 +15,5 @@
     "@slack/bolt": "^3.7.0",
     "node": "^16.11.0",
     "node-fetch": "^3.0.0"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0",
-    "nodemon": "^2.0.14"
   }
 }
